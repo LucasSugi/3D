@@ -26,14 +26,11 @@ GLfloat angleVerticalVision = 70.0f;
 // Object position
 GLfloat objectX = 0.0f, objectY = 0.0f, objectZ = 0.0f;
 
-// Vision position
-//GLfloat visionX = 0.0f, visionY = 0.0f, visionZ = 0.0f;
-
 // Last positions get from mouse movement
 GLfloat lastX = 0.0f, lastY = 0.0f;
 
 // Parameters to rotation of scene
-GLfloat rotate_x = 0.0f, rotate_y = 0.0f;
+GLfloat rotate_x= 0.0f, rotate_y = 0.0f;
 
 /**	Draws our character on screen	*/
 void drawCharacter(){
@@ -43,18 +40,34 @@ void drawCharacter(){
 	glutSolidCube(2);
 }
 
+/**	Draws one cube on screen	*/
+void drawCube(GLfloat size, GLfloat x, GLfloat y, GLfloat z, GLfloat color_x, GLfloat color_y, GLfloat color_z){
+	glColor3f(color_x, color_y, color_z);	
+	glPushMatrix();
+	glTranslatef(-x, -y, -z);
+	glutSolidCube(size);
+	glPopMatrix();
+}
+
 /**	Draws the obstacles on screen	*/
 void drawObstacles() {
-	glColor3f(1.0f, 1.0f, 0.0f);	
-	glPushMatrix();
-	glTranslatef(10.0f, 0.0f, -20.0f);
-	glutSolidCube(2);
-	glPopMatrix();
-	glColor3f(0.0f, 1.0f, 1.0f);	
-	glPushMatrix();
-	glTranslatef(-10.0f, 0.0f, -10.0f);
-	glutSolidCube(2);
-	glPopMatrix();
+	// Draw the cubes on scene
+	drawCube(4, 20.0f, 10.0f, 10.0f, 1.0f, 0.0f, 0.0f);
+	drawCube(4, -20.0f, 10.0f, 20.0f, 1.0f, 1.0f, 0.0f);
+	drawCube(4, 10.0f, 10.0f, -20.0f, 1.0f, 0.0f, 1.0f);
+	drawCube(4, -10.0f, 10.0f, -10.0f, 0.0f, 0.0f, 1.0f);
+	drawCube(6, 25.0f, 30.0f, 10.0f, 0.0f, 1.0f, 1.0f);
+	drawCube(6, -15.0f, 30.0f, 20.0f, 0.0f, 1.0f, 0.0f);
+	drawCube(6, 10.0f, 30.0f, -25.0f, 0.0f, 1.0f, 0.0f);
+	drawCube(6, -15.0f, 30.0f, -15.0f, 0.0f, 1.0f, 1.0f);
+	drawCube(4, 25.0f, -10.0f, -10.0f, 0.0f, 0.0f, 1.0f);
+	drawCube(4, -15.0f, -10.0f, -20.0f, 1.0f, 0.0f, 1.0f);
+	drawCube(4, 10.0f, -10.0f, 25.0f, 1.0f, 1.0f, 0.0f);
+	drawCube(10, -15.0f, -10.0f, 15.0f, 1.0f, 0.0f, 0.0f);
+	drawCube(4, 15.0f, -30.0f, -10.0f, 1.0f, 0.0f, 1.0f);
+	drawCube(4, 15.0f, -30.0f, -30.0f, 0.0f, 1.0f, 1.0f);
+	drawCube(4, 10.0f, -30.0f, 15.0f, 1.0f, 0.0f, 0.0f);
+	drawCube(6, -20.0f, -30.0f, 15.0f, 1.0f, 1.0f, 0.0f);
 }
 
 /**	Function that draw the grid on the screen	*/
@@ -62,10 +75,10 @@ void drawGrid() {
 	for(float i = -500; i <= 500; i += 5) {
 		glBegin(GL_LINES);
 			glColor3ub(150, 190, 150);
-			glVertex3f(-500, 0, i);
-			glVertex3f(500, 0, i);
-			glVertex3f(i, 0,-500);
-			glVertex3f(i, 0, 500);
+			glVertex3f(-500, -5, i);
+			glVertex3f(500, -5, i);
+			glVertex3f(i, -5,-500);
+			glVertex3f(i, -5, 500);
 		glEnd();
 	}
 }
@@ -101,7 +114,7 @@ void draw(){
 	drawObstacles();
 
 	//Draws the grid
-	//drawGrid();
+	drawGrid();
 
 	// Swap the buffers
 	glutSwapBuffers();
@@ -147,8 +160,6 @@ void mouse(int x, int y){
 	// Sets the rotation parameters
 	rotate_x += (GLfloat)varY;
 	rotate_y += (GLfloat)varX;
-
-
 }
 
 
@@ -162,7 +173,7 @@ void keyboard(unsigned char key, int x, int y) {
 		rotate_aux_x = (rotate_x / 180 * PI);
 		rotate_aux_y = (rotate_y / 180 * PI);
 		objectX += float(sin(rotate_aux_y));
-//		objectY -= float(sin(rotate_aux_x));
+		objectY -= float(sin(rotate_aux_x));
 		objectZ -= float(cos(rotate_aux_y));
 	}
 	// Moves the character back
@@ -171,7 +182,7 @@ void keyboard(unsigned char key, int x, int y) {
 		rotate_aux_x = (rotate_x / 180 * PI);
 		rotate_aux_y = (rotate_y / 180 * PI);
 		objectX -= float(sin(rotate_aux_y));
-//		objectY += float(sin(rotate_aux_x));
+		objectY += float(sin(rotate_aux_x));
 		objectZ += float(cos(rotate_aux_y));
 	}
 	// Moves the character right
