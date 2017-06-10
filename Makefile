@@ -1,6 +1,7 @@
-all:
+main: t3.cpp
 	gcc t3.cpp -lglut -lGLU -lGL -lm -o main
-run:
+
+run: main
 	./main
 
 clean:

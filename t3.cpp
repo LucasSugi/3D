@@ -147,7 +147,9 @@ void mouse(int x, int y){
 	//varY = y - lastY;
 	varX = x - sc_x;
 	varY = y - sc_y;
-	glutWarpPointer(sc_x, sc_y);
+
+	if (varX || varY)
+		glutWarpPointer(sc_x, sc_y);
 	
 	// Stores the current position
 	lastX = x;
@@ -222,7 +224,7 @@ int main(int argc, char *argv[]){
 	glutCreateWindow("3D Movement");
 
 	//Hide Cursor
-	//glutSetCursor(GLUT_CURSOR_NONE);
+	glutSetCursor(GLUT_CURSOR_NONE);
 
 	//Function that draw in window
 	glutDisplayFunc(draw);
