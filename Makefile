@@ -1,4 +1,7 @@
 all:
-		gcc cubo.c -lglut -lGLU -lGL -lm -o main
+	gcc t3.cpp -lglut -lGLU -lGL -lm -o main
 run:
-		./main
+	./main
+
+clean:
+	rm -rf main

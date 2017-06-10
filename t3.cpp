@@ -10,8 +10,8 @@
 #include <math.h>
 #include <GL/glut.h>
 
-#define WINDOW_SIZE_H 450
-#define WINDOW_SIZE_W 450
+#define WINDOW_SIZE_H 800
+#define WINDOW_SIZE_W 600
 #define WINDOW_INIT_POS_X 100
 #define WINDOW_INIT_POS_Y 100
 
@@ -34,6 +34,9 @@ GLfloat lastX = 0.0f, lastY = 0.0f;
 
 // Parameters to rotation of scene
 GLfloat rotate_x = 0.0f, rotate_y = 0.0f;
+
+// Store the screen center position
+GLint sc_x = 300, sc_y = 400;
 
 /**	Draws our character on screen	*/
 void drawCharacter(){
@@ -101,7 +104,7 @@ void draw(){
 	drawObstacles();
 
 	//Draws the grid
-	//drawGrid();
+	drawGrid();
 
 	// Swap the buffers
 	glutSwapBuffers();
@@ -109,6 +112,9 @@ void draw(){
 
 /**	Function that reshapes the window	*/
 void alterWindowSize(GLsizei w, GLsizei h){
+
+	sc_x = w / 2;
+	sc_y = h / 2;
 
 	// Prevents division by zero
 	if(h == 0) h = 1;
@@ -133,12 +139,15 @@ void alterWindowSize(GLsizei w, GLsizei h){
 
 /**	Handling the mouse movement	*/
 void mouse(int x, int y){
-	
 	int varX, varY;
+	int dX, dY;
 	
 	// Compute the difference between current/last mouse position
-	varX = x - lastX;
-	varY = y - lastY;
+	//varX = x - lastX;
+	//varY = y - lastY;
+	varX = x - sc_x;
+	varY = y - sc_y;
+	glutWarpPointer(sc_x, sc_y);
 	
 	// Stores the current position
 	lastX = x;
@@ -147,10 +156,7 @@ void mouse(int x, int y){
 	// Sets the rotation parameters
 	rotate_x += (GLfloat)varY;
 	rotate_y += (GLfloat)varX;
-
-
 }
-
 
 
 /**	Handling the keyboard interaction	*/
@@ -162,7 +168,7 @@ void keyboard(unsigned char key, int x, int y) {
 		rotate_aux_x = (rotate_x / 180 * PI);
 		rotate_aux_y = (rotate_y / 180 * PI);
 		objectX += float(sin(rotate_aux_y));
-//		objectY -= float(sin(rotate_aux_x));
+		objectY -= float(sin(rotate_aux_x));
 		objectZ -= float(cos(rotate_aux_y));
 	}
 	// Moves the character back
@@ -171,7 +177,7 @@ void keyboard(unsigned char key, int x, int y) {
 		rotate_aux_x = (rotate_x / 180 * PI);
 		rotate_aux_y = (rotate_y / 180 * PI);
 		objectX -= float(sin(rotate_aux_y));
-//		objectY += float(sin(rotate_aux_x));
+		objectY += float(sin(rotate_aux_x));
 		objectZ += float(cos(rotate_aux_y));
 	}
 	// Moves the character right
@@ -215,6 +221,9 @@ int main(int argc, char *argv[]){
 	//Create the Window 
 	glutCreateWindow("3D Movement");
 
+	//Hide Cursor
+	//glutSetCursor(GLUT_CURSOR_NONE);
+
 	//Function that draw in window
 	glutDisplayFunc(draw);
 
@@ -235,3 +244,4 @@ int main(int argc, char *argv[]){
 
 	return 0;
 }
+
