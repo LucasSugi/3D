@@ -1,5 +1,5 @@
-main: t3.cpp
-	gcc t3.cpp -lglut -lGLU -lGL -lm -o main
+main: t3.cpp bibutil.cpp
+	g++ t3.cpp bibutil.cpp -std=c++11 -lglut -lGLU -lGL -lm -o main
 
 run: main
 	./main

@@ -10,6 +10,8 @@
 #include <math.h>
 #include <GL/glut.h>
 
+#include "bibutil.h"
+
 #define WINDOW_SIZE_H 800
 #define WINDOW_SIZE_W 600
 #define WINDOW_INIT_POS_X 100
@@ -35,12 +37,22 @@ GLfloat rotate_x= 0.0f, rotate_y = 0.0f;
 // Store the screen center position
 GLint sc_x = 300, sc_y = 400;
 
+// Object to be drawn
+OBJ* object;
+
 /**	Draws our character on screen	*/
 void drawCharacter(){
+	/* glPushMatrix();
+	glScaled(0.1, 0.1, 0.1);
+	DesenhaObjeto(object);
+	glPopMatrix(); */
 	glTranslatef(0.0f, 0.0f, -10.0f);
 	glRotatef(rotate_x, 1.0f, 0.0f, 0.0f);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glutSolidCube(2);
+	glColor3f(1.0f, 1.0f, 0.0f);
+
+	DesenhaObjeto(object);
+
+	//glutSolidCube(2);
 }
 
 /**	Draws one cube on screen	*/
@@ -219,6 +231,10 @@ void keyboard(unsigned char key, int x, int y) {
 	}
 }
 
+void initObject(void) {
+	object = CarregaObjeto("surprise.obj", true);
+}
+
 /**	Main Funcion	*/
 int main(int argc, char *argv[]){
 
@@ -234,10 +250,13 @@ int main(int argc, char *argv[]){
 	glutInitWindowPosition(WINDOW_INIT_POS_X, WINDOW_INIT_POS_Y); 
 
 	//Create the Window 
-	glutCreateWindow("3D Movement");
+	glutCreateWindow("Turkey Leg Simulator - Alpha v0.0.0.1");
 
 	//Hide Cursor
 	glutSetCursor(GLUT_CURSOR_NONE);
+
+	// Load object:
+	initObject();
 
 	//Function that draw in window
 	glutDisplayFunc(draw);
