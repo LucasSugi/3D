@@ -49,7 +49,6 @@ void drawCharacter(){
 	glTranslatef(0.0f, 0.0f, -10.0f);
 	glRotatef(rotate_x, 1.0f, 0.0f, 0.0f);
 	glColor3f(1.0f, 1.0f, 0.0f);
-
 	DesenhaObjeto(object);
 
 	//glutSolidCube(2);
